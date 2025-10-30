@@ -1,16 +1,11 @@
 package com.mrspeer.dicerollerver2
 
-import android.media.Image
+
 import android.os.Bundle
-import android.text.Layout
-import android.widget.NumberPicker
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.FlingBehavior
-import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,10 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -36,14 +27,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
-import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mrspeer.dicerollerver2.ui.theme.DiceRollerVer2Theme
@@ -53,7 +38,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            var hasRolled by remember { mutableStateOf(false) }
             var diceSize by remember { mutableIntStateOf(6) }
             var diceRoll by remember { mutableIntStateOf(0) }
             var numberInput by remember { mutableStateOf("") }
@@ -62,7 +46,6 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column {
                         NavBar(
-                            diceSize,
                             onDiceSizeChange = { newSize ->
                                 diceSize = newSize
                             },
@@ -84,12 +67,10 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         DiceRoller(
-                            hasRolled,
                             diceSize,
                             diceRoll,
                             onDiceRollChange = { newRoll ->
                                 diceRoll = newRoll
-                                hasRolled = true
                             },
                             onDiceNumberChange = { newNumber ->
                                 numberInput = newNumber.toString()
@@ -106,7 +87,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun NavBar(
-    diceSize: Int,
     onDiceSizeChange: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -191,7 +171,6 @@ fun NavBar(
 
 @Composable
 fun DiceRoller(
-    hasRolled: Boolean,
     diceSize: Int,
     diceRoll: Int,
     onDiceRollChange: (Int) -> Unit,
